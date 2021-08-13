@@ -2,13 +2,15 @@ import React from "react";
 import Jac from "../images/Jac-Yv.jpg";
 
 function Main() {
-  /* const editAvatarButton = document.querySelector(".lead__pencil");
-  console.log(editAvatarButton); */
+  const editAvatarButton = document.querySelector(".lead__pencil");
+  console.log(editAvatarButton);
   /* editAvatarButton.addEventListener("click", HandleEditAvatarClick);
 
   const HandleEditAvatarClick = () => {
     document.querySelector(".popup-avatar").classList.add("popup_opened");
   }; */
+  const popups = document.querySelectorAll(".popup");
+  console.log(popups);
 
   return (
     <main className="content">
