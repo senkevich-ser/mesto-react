@@ -13,7 +13,7 @@ function ImagePopup({ card, onClose }) {
           className=" popup__close-cross opacity"
           onClick={onClose}
         ></button>
-        <h2 className="foto-open__name">Новое место</h2>
+        <h2 className="foto-open__name">{`${card.name}`}</h2>
       </div>
     </div>
   );

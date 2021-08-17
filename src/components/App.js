@@ -60,7 +60,7 @@ function App() {
             name="name"
             placeholder="Имя Фамилия"
             className="input popup__input-text"
-            required
+            /* required */
             minLength="2"
             maxLength="40"
           />
@@ -71,7 +71,7 @@ function App() {
             name="about"
             placeholder="Род деятельности"
             className="input popup__input-text"
-            required
+            /* required */
             minLength="2"
             maxLength="200"
           />
@@ -92,7 +92,7 @@ function App() {
             name="placeName"
             placeholder="Название"
             className="input popup-card__input-text popup__input-text"
-            required
+            /* required */
             minLength="2"
             maxLength="30"
           />
@@ -103,7 +103,7 @@ function App() {
             type="url"
             placeholder="Ссылка на картинку"
             className="input popup-card__input-text popup__input-text"
-            required
+            /* required */
           />
           <span className="link-input-error popup__error"></span>
         </fieldset>
