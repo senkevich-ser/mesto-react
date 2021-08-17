@@ -6,27 +6,35 @@ import PopupWithForm from "./PopupWithForm.js";
 import ImagePopup from "./ImagePopup.js";
 
 function App() {
-  const [isPopupOpen, setPopupOpened] = React.useState({
-    isEditAvatarPopupOpen: false,
-    isEditProfilePopupOpen: false,
-    isAddPlacePopupOpen: false,
-  });
-  //функция открытия попапа редактирования автара
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
+    React.useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+
+  const [selectedCard, setSelectedCard] = React.useState({});
+
   function handleEditAvatarClick() {
-    setPopupOpened({ ...isPopupOpen, isEditAvatarPopupOpen: true });
+    setEditAvatarPopupOpen(true);
   }
-  //функция открытия попапа редактирования профиля
+
   function handleEditProfileClick() {
-    setPopupOpened({ ...isPopupOpen, isEditProfilePopupOpen: true });
+    setEditProfilePopupOpen(true);
   }
-  //функция открытия попапа добавления карточки
+
   function handleAddCardClick() {
-    setPopupOpened({ ...isPopupOpen, isAddPlacePopupOpen: true });
+    setAddPlacePopupOpen(true);
   }
+
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
   function closeAllPopups() {
-    Object.keys(isPopupOpen).forEach((item) =>
-      setPopupOpened((isPopupOpen[item] = false))
-    );
+    setEditAvatarPopupOpen(false);
+    setEditProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+
+    setSelectedCard({});
   }
   return (
     <div className="App root">
@@ -35,13 +43,14 @@ function App() {
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddCardClick}
         onEditAvatar={handleEditAvatarClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
       <PopupWithForm
         title="Редактировать профиль"
         name="editProfile"
         buttonTitle="Сохранить"
-        isOpen={isPopupOpen.isEditProfilePopupOpen}
+        isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
       >
         <fieldset className="popup__inputs">
@@ -54,7 +63,6 @@ function App() {
             required
             minLength="2"
             maxLength="40"
-            required
           />
           <span className="initial-input-error popup__error"></span>
           <input
@@ -74,7 +82,7 @@ function App() {
         title="Новое место"
         name="addCard"
         buttonTitle="Создать"
-        isOpen={isPopupOpen.isAddPlacePopupOpen}
+        isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
       >
         <fieldset className="popup__inputs">
@@ -104,7 +112,7 @@ function App() {
         title="Обновить аватар"
         name="avatar"
         buttonTitle="Сохранить"
-        isOpen={isPopupOpen.isEditAvatarPopupOpen}
+        isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
       >
         <fieldset className="popup__inputs">
@@ -120,7 +128,7 @@ function App() {
       </PopupWithForm>
       <PopupWithForm title="Вы уверены?" name="remove" buttonTitle="Да" />
 
-      <ImagePopup />
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div>
   );
 }
