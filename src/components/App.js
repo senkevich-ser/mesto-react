@@ -37,7 +37,7 @@ function App() {
     setSelectedCard({});
   }
   return (
-    <div className="App root">
+    <div className="App">
       <Header />
       <Main
         onEditProfile={handleEditProfileClick}
@@ -127,7 +127,6 @@ function App() {
         </fieldset>
       </PopupWithForm>
       <PopupWithForm title="Вы уверены?" name="remove" buttonTitle="Да" />
-
       <ImagePopup card={selectedCard} onClose={closeAllPopups} />
     </div>
   );

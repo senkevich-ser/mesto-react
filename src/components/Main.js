@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "./Card.js";
 import api from "./utils/Api.js";
+import { Spinner } from "./Spinner.js";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
   const [userInfo, setUserInfo] = React.useState({
@@ -9,8 +10,10 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
     userAvatar: "",
   });
   const [cards, setCards] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
+    setIsLoading(true);
     Promise.all([api.getInfoAboutUser(), api.getCards()])
       .then(([userData, cards]) => {
         setUserInfo({
@@ -19,13 +22,16 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           userAvatar: userData.avatar,
         });
         setCards(cards);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log("Ошибка при получении данных профиля");
       });
   }, []);
 
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <main className="content">
       <section className="lead">
         <div className="lead__titles">
