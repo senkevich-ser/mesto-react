@@ -1,6 +1,6 @@
 import React from "react";
 import Card from "./Card.js";
-import api from "../blocks/utils/Api.js";
+import api from "../utils/Api.js";
 import { Spinner } from "./Spinner.js";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
