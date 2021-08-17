@@ -33,9 +33,9 @@ function App() {
     setEditAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
-
     setSelectedCard({});
   }
+
   return (
     <div className="App">
       <Header />

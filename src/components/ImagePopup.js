@@ -1,12 +1,17 @@
-function ImagePopup() {
+function ImagePopup({ card, onClose }) {
   return (
-    <div className=" foto-open popup">
-      <div className=" foto-open__container">
-        <img className="foto-open__image" src="#" alt="Foto" />
+    <div className={`foto-open popup ${card.link ? "popup_opened" : ""}`}>
+      <div className="foto-open__container">
+        <img
+          className="foto-open__image"
+          src={`${card.link}`}
+          alt={`${card.name}`}
+        />
         <button
           aria-label="Закрыть фото"
           type="button"
           className=" popup__close-cross opacity"
+          onClick={onClose}
         ></button>
         <h2 className="foto-open__name">Новое место</h2>
       </div>
