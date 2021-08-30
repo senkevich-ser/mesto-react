@@ -37,7 +37,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       });
   }
   function handleCardDelete(card) {
-    // Отправляю запрос в API и получаю массив, исключив из него удалённую карточку
+    // Отправляется запрос в API и получаю массив, без удалённойкарточки
     api
       .deleteCard(card._id)
       .then(() => {

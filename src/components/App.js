@@ -6,6 +6,7 @@ import PopupWithForm from "./PopupWithForm.js";
 import ImagePopup from "./ImagePopup.js";
 import api from "../utils/Api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import EditProfilePopup from "./EditProfilePopup.js";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
@@ -63,38 +64,10 @@ function App() {
           onCardClick={handleCardClick}
         />
         <Footer />
-        <PopupWithForm
-          title="Редактировать профиль"
-          name="editProfile"
-          buttonTitle="Сохранить"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        >
-          <fieldset className="popup__inputs">
-            <input
-              id="initial-input"
-              type="text"
-              name="name"
-              placeholder="Имя Фамилия"
-              className="input popup__input-text"
-              /* required */
-              minLength="2"
-              maxLength="40"
-            />
-            <span className="initial-input-error popup__error"></span>
-            <input
-              id="rank-input"
-              type="text"
-              name="about"
-              placeholder="Род деятельности"
-              className="input popup__input-text"
-              /* required */
-              minLength="2"
-              maxLength="200"
-            />
-            <span className="rank-input-error popup__error"></span>
-          </fieldset>
-        </PopupWithForm>
+        />
         <PopupWithForm
           title="Новое место"
           name="addCard"
