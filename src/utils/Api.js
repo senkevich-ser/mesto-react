@@ -67,6 +67,12 @@ class Api {
       headers: this._headers,
     }).then(this._getResponseValue);
   }
+  changeLikeCardStatus(id, isLiked) {
+    return fetch(`${this._url}cards/likes/${id}`, {
+      method: isLiked ? "DELETE" : "PUT",
+      headers: this._headers,
+    }).then(this._getResponseValue);
+  }
 
   _getResponseValue(response) {
     if (response.ok) {

@@ -2,25 +2,18 @@ import React from "react";
 import Card from "./Card.js";
 import api from "../utils/Api.js";
 import { Spinner } from "./Spinner.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-  const [userInfo, setUserInfo] = React.useState({
-    userName: "",
-    userDescription: "",
-    userAvatar: "",
-  });
+  const currentUser = React.useContext(CurrentUserContext);
   const [cards, setCards] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     setIsLoading(true);
-    Promise.all([api.getInfoAboutUser(), api.getCards()])
-      .then(([userData, cards]) => {
-        setUserInfo({
-          userName: userData.name,
-          userDescription: userData.about,
-          userAvatar: userData.avatar,
-        });
+    api
+      .getCards()
+      .then((cards) => {
         setCards(cards);
         setIsLoading(false);
       })
@@ -28,6 +21,32 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
         console.log("Ошибка при получении данных профиля");
       });
   }, []);
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    // Отправляем запросы в API и получаем обновлённые данные карточки
+    api
+      .changeLikeCardStatus(card._id, isLiked)
+      .then((newCardSomeLike) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCardSomeLike : c))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  function handleCardDelete(card) {
+    // Отправляю запрос в API и получаю массив, исключив из него удалённую карточку
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((state) => state.filter((c) => c._id !== card._id));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return isLoading ? (
     <Spinner />
@@ -43,12 +62,12 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
           ></button>
           <img
             className="lead__image"
-            src={userInfo.userAvatar}
+            src={currentUser.avatar}
             alt="Фото пользователя"
           />
           <div className="lead__wrapper-titles">
             <div className="lead__wrapper-title">
-              <h1 className="lead__title title-cutter">{userInfo.userName}</h1>
+              <h1 className="lead__title title-cutter">{currentUser.name}</h1>
               <button
                 aria-label="Внести изменения в форму"
                 type="button"
@@ -57,7 +76,7 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
               ></button>
             </div>
             <p className="lead__subtitle title-cutter margin">
-              {userInfo.userDescription}
+              {currentUser.about}
             </p>
           </div>
         </div>
@@ -70,7 +89,15 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
       </section>
       <section className="foto-grid" aria-label="Фото красивых мест">
         {cards.map((card) => {
-          return <Card key={card._id} card={card} onCardClick={onCardClick} />;
+          return (
+            <Card
+              key={card._id}
+              card={card}
+              onCardLike={handleCardLike}
+              onCardDelete={handleCardDelete}
+              onCardClick={onCardClick}
+            />
+          );
         })}
       </section>
     </main>
