@@ -8,6 +8,7 @@ import api from "../utils/Api.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
+import AddPlacePopup from "./AddPlacePopup.js";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
@@ -114,6 +115,18 @@ function App() {
         console.log(err);
       });
   }
+  function handleAddPlaceSubmit({ name, link }, onSuccess) {
+    api
+      .addCard({ name, link })
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        onSuccess();
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -133,36 +146,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-        <PopupWithForm
-          title="Новое место"
-          name="addCard"
-          buttonTitle="Создать"
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-        >
-          <fieldset className="popup__inputs">
-            <input
-              id="place-input"
-              type="text"
-              name="placeName"
-              placeholder="Название"
-              className="input popup-card__input-text popup__input-text"
-              /* required */
-              minLength="2"
-              maxLength="30"
-            />
-            <span className="place-input-error popup__error"></span>
-            <input
-              id="link-input"
-              name="linkName"
-              type="url"
-              placeholder="Ссылка на картинку"
-              className="input popup-card__input-text popup__input-text"
-              /* required */
-            />
-            <span className="link-input-error popup__error"></span>
-          </fieldset>
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}

@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "./Card.js";
-import api from "../utils/Api.js";
-import { Spinner } from "./Spinner.js";
+/* import api from "../utils/Api.js"; */
+/* import { Spinner } from "./Spinner.js"; */
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({
