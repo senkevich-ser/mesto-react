@@ -4,53 +4,22 @@ import api from "../utils/Api.js";
 import { Spinner } from "./Spinner.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
+function Main({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  cards,
+  onCardLike,
+  onCardDelete,
+}) {
   const currentUser = React.useContext(CurrentUserContext);
-  const [cards, setCards] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  /* const [isLoading, setIsLoading] = React.useState(false); */
 
-  React.useEffect(() => {
-    setIsLoading(true);
-    api
-      .getCards()
-      .then((cards) => {
-        setCards(cards);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log("Ошибка при получении данных профиля");
-      });
-  }, []);
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    // Отправляем запросы в API и получаем обновлённые данные карточки
-    api
-      .changeLikeCardStatus(card._id, isLiked)
-      .then((newCardSomeLike) => {
-        setCards((state) =>
-          state.map((c) => (c._id === card._id ? newCardSomeLike : c))
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  function handleCardDelete(card) {
-    // Отправляется запрос в API и получаю массив, без удалённойкарточки
-    api
-      .deleteCard(card._id)
-      .then(() => {
-        setCards((state) => state.filter((c) => c._id !== card._id));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  return isLoading ? (
+  return (
+    /* isLoading ? (
     <Spinner />
-  ) : (
+  ) : */
     <main className="content">
       <section className="lead">
         <div className="lead__titles">
@@ -93,8 +62,8 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
             <Card
               key={card._id}
               card={card}
-              onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
               onCardClick={onCardClick}
             />
           );
