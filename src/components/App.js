@@ -9,6 +9,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
+import { Spinner } from "./Spinner.js";
 
 function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
@@ -18,6 +19,7 @@ function App() {
   // переменная состояния, отвечающая за данные пользователя
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const [selectedCard, setSelectedCard] = React.useState({});
 
@@ -33,10 +35,12 @@ function App() {
   }, []);
 
   React.useEffect(() => {
+    setIsLoading(true);
     api
       .getCards()
       .then((cards) => {
         setCards(cards);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log("Ошибка при получении данных профиля");
@@ -127,7 +131,9 @@ function App() {
         console.log(err);
       });
   }
-  return (
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <Header />

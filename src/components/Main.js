@@ -1,7 +1,5 @@
 import React from "react";
 import Card from "./Card.js";
-/* import api from "../utils/Api.js"; */
-/* import { Spinner } from "./Spinner.js"; */
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main({
@@ -14,12 +12,8 @@ function Main({
   onCardDelete,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
-  /* const [isLoading, setIsLoading] = React.useState(false); */
 
   return (
-    /* isLoading ? (
-    <Spinner />
-  ) : */
     <main className="content">
       <section className="lead">
         <div className="lead__titles">
