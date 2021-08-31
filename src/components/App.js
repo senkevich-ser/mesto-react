@@ -52,7 +52,17 @@ function App() {
     setAddPlacePopupOpen(false);
     setSelectedCard({});
   }
-
+  function handleUpdateUser({ name, about }) {
+    api
+      .setInfoAboutUser({ name, about })
+      .then((currentUserData) => {
+        setCurrentUser(currentUserData);
+        closeAllPopups();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -67,6 +77,7 @@ function App() {
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
         />
         <PopupWithForm
           title="Новое место"

@@ -11,13 +11,13 @@ class Api {
     }).then(this._getResponseValue);
   }
 
-  setInfoAboutUser(data) {
+  setInfoAboutUser({ name, about }) {
     return fetch(`${this._url}users/me`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: data.name,
-        about: data.about,
+        name: name,
+        about: about,
       }),
     }).then(this._getResponseValue);
   }
