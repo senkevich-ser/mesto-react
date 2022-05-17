@@ -6,7 +6,7 @@
 
 ***Страница проекта***
 
-https://kateworks.github.io/mesto-react/
+https://senkevich-ser.github.io/mesto-react/
 
 ***Технологии***
 
